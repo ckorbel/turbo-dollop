@@ -1,8 +1,18 @@
 const express = require("express");
 const app = express();
 const connectDB = require("./db/mongoose");
+const redis = require("redis");
 
 connectDB();
+
+let client = redis.createClient();
+client.on("connect", () => {
+  console.log("Redis connected");
+});
+
+client.on("error", err => {
+  console.log(`Something went wrong ${err}`);
+});
 
 app.use(express.json({ extended: false }));
 

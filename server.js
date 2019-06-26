@@ -5,14 +5,14 @@ const redis = require("redis");
 
 connectDB();
 
-let client = redis.createClient();
-client.on("connect", () => {
-  console.log("Redis connected");
-});
+// let client = redis.createClient();
+// client.on("connect", () => {
+//   console.log("Redis connected");
+// });
 
-client.on("error", err => {
-  console.log(`Something went wrong ${err}`);
-});
+// client.on("error", err => {
+//   console.log(`Something went wrong ${err}`);
+// });
 
 app.use(express.json({ extended: false }));
 

@@ -12,17 +12,16 @@ const User = require("../../models/User");
 // PUBLIC
 router.get("/", (req, res) => res.send("User test route"));
 
-//
-//
-//PRIVATE
-
 //POST api/users
 //Create User
 //Public
 router.post(
   "/",
   [
-    check("name", "Name is required")
+    check("firstName", "Please enter your data")
+      .not()
+      .isEmpty(),
+    check("lastName", "Please enter your data")
       .not()
       .isEmpty(),
     check("email", "Please include a valid email").isEmail(),
@@ -32,11 +31,14 @@ router.post(
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+    console.log(firstName, lastName, email, password);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { name, email, password } = req.body;
+    // const { name, email, password } = req.body;
+    // console.log(name, email, password);
     try {
       let user = await User.findOne({ email });
       if (user) {
@@ -46,7 +48,8 @@ router.post(
       }
 
       user = new User({
-        name,
+        firstName,
+        lastName,
         email,
         password
       });

@@ -17,6 +17,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 app.use("/api/users", require("./routes/api/users"));
+app.use("/api/profiles", require("./routes/api/profile"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/lists", require("./routes/api/lists"));
 

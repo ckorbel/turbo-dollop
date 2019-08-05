@@ -21,7 +21,8 @@
     "mongodb": "^3.2.7",
     "mongoose": "^5.5.15",
     "redis": "^2.8.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "validator": "^11.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

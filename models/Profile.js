@@ -13,6 +13,9 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
+  bio: {
+    type: String
+  },
   skills: {
     type: [String],
     required: true
@@ -82,6 +85,10 @@ const ProfileSchema = new Schema({
     website: {
       type: String
     }
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

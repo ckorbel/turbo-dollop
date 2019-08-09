@@ -200,6 +200,7 @@ router.put(
 );
 
 //Delete experience from profile
+//private
 router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
@@ -209,6 +210,74 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
       .indexOf(req.params.exp_id);
 
     profile.experience.splice(removeIndex, 1);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+//Add education to profile
+//private
+router.put(
+  "/education",
+  [
+    auth,
+    [
+      check("school", "School is a required field")
+        .not()
+        .isEmpty(),
+      check("degree", "Degree is a required field")
+        .not()
+        .isEmpty(),
+      check("fieldofstudy", "Field of Study is a required field")
+        .not()
+        .isEmpty(),
+      check("from", "Start Date is a required field")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { school, degree, fieldofstudy, from, to, current } = req.body;
+
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.education.unshift(newEdu);
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+//Delete education from profile
+//private
+router.delete("/education/:edu_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.params.edu_id);
+
+    profile.education.splice(removeIndex, 1);
     await profile.save();
     res.json(profile);
   } catch (err) {

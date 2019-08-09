@@ -26,6 +26,10 @@ const ProfileSchema = new Schema({
         type: String,
         required: true
       },
+      current: {
+        type: Boolean,
+        default: false
+      },
       company: {
         type: String,
         required: true
@@ -38,8 +42,7 @@ const ProfileSchema = new Schema({
         required: true
       },
       to: {
-        type: Date,
-        required: true
+        type: Date
       },
       description: {
         type: String,
